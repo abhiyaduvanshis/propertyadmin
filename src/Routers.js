@@ -12,7 +12,7 @@ const Routers =()=>{
         <Routes>
             <Route exact path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}></Route>
             <Route exact path="/property/list" element={<ProtectedRoute><Propertylist/></ProtectedRoute>}></Route>
-            <Route exact path="/property/add" element={<Addproperty/>}></Route>
+            <Route exact path="/property/add" element={<ProtectedRoute><Addproperty/></ProtectedRoute>}></Route>
             <Route exact path="/register" element={<Register/>}></Route>
             <Route exact path="/login" element={<Login/>}></Route>
         </Routes>
