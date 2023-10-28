@@ -8,27 +8,69 @@ const login =(email,password)=>{
         password
     })
     .then((response)=>{
-        console.log(response)
-        if(response.status==200 && response.email!=''){
-            localStorage.setItem('user',JSON.stringify(response.data));
+        //console.log(response)
+        if(response.status==200 && response.data.token!=''){
+            localStorage.setItem('usertoken',response.data.token);
         }
         return response;
     })
 }
 
-const getCurrentUser=()=>{
-    return JSON.parse(localStorage.getItem("user"));
+const createuser=(username,fullname,email,role,password)=>{
+    const token = localStorage.getItem("usertoken");
+    return axios
+    .post(API_URL+"register",{
+        username,
+        fullname,
+        email,
+        role,
+        password  
+    },
+    {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json', 
+        }
+    })
+    .then((response)=>{
+       // console.log(response); 
+        // if(response.status==200 && response.email!=''){
+        //     localStorage.setItem('user',JSON.stringify(response.data));
+        // }
+        if(response.status==200 && response.data.statuscode===1){
+            return response.data.msg;
+        }else{
+            return response.data.msg;
+        }
+    })
 }
 
+const getCurrentUser=()=>{
+    const token = localStorage.getItem("usertoken");
+    return axios
+    .get(API_URL+"current", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json', 
+        }
+        }).then((response) => {
+           // console.log(response);
+            return response;
+        });
+        
+}
+
+
 const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("usertoken");
     return 'logout';
 };
 
  const AuthService = {
     login,
     getCurrentUser,
-    logout
+    logout,
+    createuser
 }
   
 export default AuthService;

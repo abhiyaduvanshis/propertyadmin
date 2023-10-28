@@ -4,15 +4,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import Routers from './Routers';
 import './index.css';
-
+import { UserProvider } from './services/UserContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
+    <UserProvider>
       <Routers/>
+    </UserProvider>
   </BrowserRouter>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

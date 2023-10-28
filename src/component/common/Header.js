@@ -1,13 +1,13 @@
-import React ,{useEffect, useState } from "react";
+import React ,{useEffect,useState } from "react";
 import AuthService from "../../services/Auth";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../services/UserContext";
 const Header=()=>{
     const navigate=useNavigate();
-    const Loginuser = AuthService.getCurrentUser();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, setUser } = useUser();
+    //console.log(user.data.email);
     const handleLogoutClick=()=>{
         AuthService.logout();
-        setIsLoggedIn(false);
         return navigate('/login');
     }
    
@@ -17,26 +17,25 @@ const Header=()=>{
                 <div className="container">
                     <a className="navbar-brand" href="/"><img src="https://ezoominfotech.com/assets/nw_images/logo.png" alt="" width="200" /></a>
                     <ul className="navbar-nav flex-row flex-wrap ms-md-auto">
-                        {Loginuser.token !=='' &&
+                        {user!==null &&
                             <li className="nav-item" >
-                            <a className="nav-link active" aria-current="page" href="#">Welcome : {Loginuser.username}</a>
+                                <a className="nav-link active" aria-current="page" href="#">Welcome : {user.data.username}</a>
                             </li>
                         }
-                        {Loginuser.token !=='' &&
+                        {user!==null &&
                             <li className="nav-item" >
-                            <button type="button" className="btn btn-dark" onClick={handleLogoutClick}>Logout</button>
-                            
+                                <button type="button" className="btn btn-dark" onClick={handleLogoutClick}>Logout</button>
                             </li>
                         }
-                        {Loginuser.token ==='' &&
+                        {user ===null &&
                             <li className="nav-item" >
-                            <a className="nav-link active" aria-current="page" href="#">User Name</a>
+                                <a className="nav-link active" aria-current="page" href="#">User Name</a>
                             </li>
                         } 
                     </ul>
                 </div>
             </nav>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark  mb-4">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -45,6 +44,9 @@ const Header=()=>{
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <a className="nav-link active" aria-current="page" href="/">Dashboard</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link active" aria-current="page" href="/user_manager/list">User Manager</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" aria-current="page" href="/property/list" >Property Manager</a>
@@ -59,16 +61,6 @@ const Header=()=>{
                     </div>
                 </div>
             </nav>
-
-            <nav aria-label="breadcrumb">
-                <div className="container">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="#">Home</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">Library</li>
-                    </ol>
-                </div>
-            </nav>
-            
         </>
     )
 }

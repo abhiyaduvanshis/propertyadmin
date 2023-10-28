@@ -1,16 +1,15 @@
 
 import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const ProtectedRoute = (props) => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
     const checkUserToken = () => {
-        const userToken = localStorage.getItem('user');
+        const userToken = localStorage.getItem('usertoken');
+       // console.log(userToken);
         if(userToken){
-            const dataToken = JSON.parse(userToken);
-            //console.log(dataToken.token);
-            if (!dataToken.token || dataToken.token === 'undefined') {
+            const dataToken = userToken;
+            if (!dataToken || dataToken === 'undefined') {
                 setIsLoggedIn(false);
                 return navigate('/login');
             }
@@ -21,8 +20,8 @@ const ProtectedRoute = (props) => {
         }
     }
     useEffect(() => {
-            checkUserToken();
-        }, [isLoggedIn]);
+        checkUserToken();
+    }, [isLoggedIn]);
     return (
         <React.Fragment>
             {

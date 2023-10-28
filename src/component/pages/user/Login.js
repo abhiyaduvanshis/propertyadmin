@@ -21,6 +21,7 @@ const Login=()=>{
     useEffect(()=>{
         if(Object.keys(formerror).length === 0 && isSubmit){
             AuthService.login(formValue.email,formValue.password).then((response)=>{
+                console.log(response.data.token);
                 if(response.status==200 && response.data.token!='' && response.data.statuscode===0){
                     navigate('/');
                    window.location.reload();
